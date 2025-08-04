@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'trading',
-    'vuln_app',
+    'test_app',
 ]
 
 MIDDLEWARE = [
