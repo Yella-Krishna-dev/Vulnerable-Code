@@ -9,7 +9,6 @@ import json
 
 @require_http_methods(["GET"])
 def search_products(request):
-    """Vulnerable to SQL injection - direct string concatenation"""
     search_term = request.GET.get('search', '')
     
     query = f"SELECT * FROM test_app_product WHERE name LIKE '%{search_term}%' OR description LIKE '%{search_term}%'"
@@ -33,7 +32,6 @@ def search_products(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def login_user(request):
-    """Vulnerable to SQL injection - authentication bypass"""
     data = json.loads(request.body)
     username = data.get('username', '')
     password = data.get('password', '')
@@ -58,7 +56,6 @@ def login_user(request):
 @csrf_exempt
 @require_http_methods(["DELETE"])
 def delete_order(request):
-    """Vulnerable to SQL injection - order deletion"""
     order_id = request.GET.get('order_id', '')
     
     query = f"DELETE FROM test_app_order WHERE id = {order_id}"
@@ -76,7 +73,6 @@ def delete_order(request):
 
 @require_http_methods(["GET"])
 def get_user_orders(request):
-    """Vulnerable to SQL injection - user order retrieval"""
     user_id = request.GET.get('user_id', '')
     
     query = f"""
@@ -107,7 +103,6 @@ def get_user_orders(request):
 @csrf_exempt
 @require_http_methods(["PUT"])
 def update_product(request):
-    """Vulnerable to SQL injection - product update"""
     data = json.loads(request.body)
     product_id = data.get('product_id', '')
     new_price = data.get('new_price', '')
@@ -127,7 +122,6 @@ def update_product(request):
 
 @require_http_methods(["GET"])
 def advanced_search(request):
-    """Vulnerable to SQL injection - complex search with multiple parameters"""
     name = request.GET.get('name', '')
     min_price = request.GET.get('min_price', '0')
     max_price = request.GET.get('max_price', '999999')
@@ -161,7 +155,6 @@ def advanced_search(request):
 
 @require_http_methods(["GET"])
 def get_product_details(request):
-    """Vulnerable to SQL injection - union-based injection opportunity"""
     product_id = request.GET.get('product_id', '')
     
     query = f"SELECT id, name, price, description FROM test_app_product WHERE id = {product_id}"
@@ -183,7 +176,6 @@ def get_product_details(request):
 
 @require_http_methods(["GET"])
 def check_product_exists(request):
-    """Vulnerable to SQL injection - time-based blind injection"""
     product_name = request.GET.get('product_name', '')
     
     query = f"SELECT COUNT(*) FROM test_app_product WHERE name = '{product_name}'"
